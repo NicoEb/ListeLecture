@@ -49,17 +49,17 @@
                             {
                                 if (Model.LivreCourant.NoteLivre >= i)
                                 {
-                                <a href="@Url.Action("Notation")" class="btn  ">
-                                    <i class="fa fa-star"></i>
-                                </a>
-                                    
+                                    <a href="@Url.Action("Notation")" class="btn  ">
+                                        <i class="fa fa-star"></i>
+                                    </a>
+
                                 }
                                 else
                                 {
                                     <a href="@Url.Action("Notation")" class="btn  ">
                                         <i class="fa fa-star-o"></i>
                                     </a>
-                                 
+
                                 }
                             }
 
@@ -69,7 +69,9 @@
                     <tr>
                         <td><a href="@Url.Action("Accueil")" class="btn btn-primary">Revenir à l'accueil</a></td>
                         <td> <a href="@Url.Action("TerminerLivre", new { idLivre = Model.LivreCourant.IdLivre })" class="btn btn-primary">Terminer la lecture</a></td>
+
                     </tr>
+                    <a href="@Url.Action("AfficherFormulaireModificationLivre", new { idLivre = Model.LivreCourant.IdLivre })" class="btn btn-primary">Modifer livre</a>
 
                 </tbody>
             </table>

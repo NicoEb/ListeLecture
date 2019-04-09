@@ -108,6 +108,13 @@ namespace ListeLecture.Controllers
         {           
             return View();
         }
-       
+
+        public ActionResult AfficherFormulaireModificationLivre(int idLivre)
+        {
+            Livre livreCourant = DataAccess.ChargerDetailDepuisBDD(idLivre);
+            return View();
+        }
+
+
     }
 }

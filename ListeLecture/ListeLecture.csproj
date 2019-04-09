@@ -119,6 +119,7 @@
     <Compile Include="Models\CreationLivre.cs" />
     <Compile Include="Models\DataAccess.cs" />
     <Compile Include="Models\DetailModel.cs" />
+    <Compile Include="Models\FormulaireModificationModel.cs" />
     <Compile Include="Models\Livre.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -131,6 +132,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Livres\AfficherFormulaireModificationLivre.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

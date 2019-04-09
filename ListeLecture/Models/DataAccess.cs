@@ -18,15 +18,15 @@ namespace ListeLecture.Models
             SqlConnection firstSelect = new SqlConnection(SqlConnectionString);
             firstSelect.Open();
             SqlCommand selectLecteur =
-                new SqlCommand("SELECT TitreLivre, AuteurLivre, NoteLivre, DateDebutLivre , DateFinLecture FROM Livre where IdLivre = @idLivre", firstSelect);
+                new SqlCommand("SELECT Titre, Auteur, Note, DateDebutLecture , DateFinLecture FROM Livre where ID = @idLivre", firstSelect);
             selectLecteur.Parameters.AddWithValue("@idLivre", idLivre);
             SqlDataReader dataReader = selectLecteur.ExecuteReader();
 
             if (dataReader.Read() )
             {
 
-                string titrelivre = (string)dataReader["TitreLivre"];
-                string auteurlivre = (string)dataReader["AuteurLivre"];
+                string titrelivre = (string)dataReader["Titre"];
+                string auteurlivre = (string)dataReader["Auteur"];
                 int? noteLivre;
                 if (dataReader.IsDBNull(2))
                 {
@@ -34,9 +34,9 @@ namespace ListeLecture.Models
                 }
                 else
                 {
-                    noteLivre = (byte)dataReader["NoteLivre"];
+                    noteLivre = (byte)dataReader["Note"];
                 }
-                DateTime dateDebutLivre = (DateTime)dataReader["DateDebutLivre"];
+                DateTime dateDebutLivre = (DateTime)dataReader["DateDebutLecture"];
                 DateTime? dateFinLecture;
                 if (dataReader.IsDBNull(4))
                 {
@@ -66,14 +66,14 @@ namespace ListeLecture.Models
             SqlConnection firstSelect = new SqlConnection(SqlConnectionString);
             firstSelect.Open();
             SqlCommand selectLecteur =
-                new SqlCommand("SELECT TitreLivre, DateFinLecture FROM Livre where IdLivre = @idLivre", firstSelect);
+                new SqlCommand("SELECT Titre, DateFinLecture FROM Livre where ID = @idLivre", firstSelect);
             selectLecteur.Parameters.AddWithValue("@idLivre", idLivre);
             SqlDataReader dataReader = selectLecteur.ExecuteReader();
 
             if (dataReader.Read())
             {
 
-                string titrelivre = (string)dataReader["TitreLivre"];
+                string titrelivre = (string)dataReader["Titre"];
                 
                 
                 DateTime dateFinLecture = (DateTime)dataReader["DateFinLecture"];
@@ -96,7 +96,7 @@ namespace ListeLecture.Models
                 connection.Open();
 
                 SqlCommand command = new SqlCommand(
-                    @"UPDATE Livre SET DateFinLecture = GETDATE() WHERE IdLivre = @idLivre", connection);
+                    @"UPDATE Livre SET DateFinLecture = GETDATE() WHERE ID = @idLivre", connection);
                 command.Parameters.AddWithValue("@idLivre", idLivre);
 
                 command.ExecuteNonQuery();
@@ -108,15 +108,15 @@ namespace ListeLecture.Models
             SqlConnection livreCours = new SqlConnection(SqlConnectionString);
             livreCours.Open();
             SqlCommand selectLecteur =
-               new SqlCommand("SELECT TitreLivre, AuteurLivre, NoteLivre, DateDebutLivre, DateFinLecture, IdLivre  FROM Livre ", livreCours);
+               new SqlCommand("SELECT Titre, Auteur, Note, DateDebutLecture, DateFinLecture, ID  FROM Livre ", livreCours);
            
             
             SqlDataReader dataReader = selectLecteur.ExecuteReader();
             while (dataReader.Read())
             {
-                int idLivre = (int)dataReader["IdLivre"];
-                string titrelivre = (string)dataReader["TitreLivre"];
-                string auteurlivre = (string)dataReader["AuteurLivre"];
+                int idLivre = (int)dataReader["ID"];
+                string titrelivre = (string)dataReader["Titre"];
+                string auteurlivre = (string)dataReader["Auteur"];
                 int? noteLivre;
                 if (dataReader.IsDBNull(2))
                 {
@@ -124,9 +124,9 @@ namespace ListeLecture.Models
                 }
                 else
                 {
-                    noteLivre = (byte)dataReader["NoteLivre"];
+                    noteLivre = (byte)dataReader["Note"];
                 }
-                DateTime dateDebutLivre = (DateTime)dataReader["DateDebutLivre"];
+                DateTime dateDebutLivre = (DateTime)dataReader["DateDebutLecture"];
                 DateTime? dateFinLecture = null;
 
                 if (dataReader.IsDBNull(4))
@@ -154,7 +154,7 @@ namespace ListeLecture.Models
                 SqlConnection connection = new SqlConnection(SqlConnectionString);
                 connection.Open();
                 SqlCommand livreInsert =
-                        new SqlCommand("INSERT INTO Livre (TitreLivre, AuteurLivre, NoteLivre, DateDebutLivre, DateFinLecture) " +
+                        new SqlCommand("INSERT INTO Livre (Titre, Auteur, Note, DateDebutLecture, DateFinLecture) " +
                         " VALUES (@titreLivre, @auteurLivre, @noteLivre, @dateDebutLivre, @dateFinLecture )", connection);
                 livreInsert.Parameters.AddWithValue("@titreLivre", nouveauLivre.TitreLivre);
                 livreInsert.Parameters.AddWithValue("@auteurLivre", nouveauLivre.AuteurLivre);
@@ -174,7 +174,7 @@ namespace ListeLecture.Models
             SqlConnection firstSelect = new SqlConnection(SqlConnectionString);
             firstSelect.Open();
             SqlCommand selectIdLivre =
-                new SqlCommand("SELECT TOP 1 IdLivre FROM Livre WHERE TitreLivre = @titreLivre AND AuteurLivre = @auteurLivre ORDER BY IdLivre DESC", firstSelect);
+                new SqlCommand("SELECT TOP 1 ID FROM Livre WHERE Titre = @titreLivre AND Auteur = @auteurLivre ORDER BY ID DESC", firstSelect);
             selectIdLivre.Parameters.AddWithValue("@titreLivre", model.TitreLivre);
             selectIdLivre.Parameters.AddWithValue("@auteurLivre", model.AuteurLivre);
             SqlDataReader dataReader = selectIdLivre.ExecuteReader();
@@ -182,7 +182,7 @@ namespace ListeLecture.Models
             if (dataReader.Read())
             {
 
-                int idLivre = (int)dataReader["IdLivre"];
+                int idLivre = (int)dataReader["ID"];
                 
                 detailModel = new Livre(model.TitreLivre, model.AuteurLivre,model.NoteLivre, model.DateDebutLivre,model.DateFinLecture,idLivre);
 
@@ -192,6 +192,52 @@ namespace ListeLecture.Models
             {
                 detailModel = null;
                 return false;
+            }
+        }
+
+        public static Livre ChargerDetailDepuisBDD(int idLivre)
+        {
+            using (SqlConnection connection = new SqlConnection(SqlConnectionString))
+            {
+                connection.Open();
+
+                SqlCommand command = new SqlCommand(
+                    "SELECT Titre, Auteur, Note, DateDebutLecture, DateFinLecture FROM Livre WHERE ID = @idLivre", connection);
+                command.Parameters.AddWithValue("@idLivre", idLivre);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                //On avance sur la première ligne
+                reader.Read();
+
+                string titre = (string)reader["Titre"];
+                string auteur = (string)reader["Auteur"];
+
+                short? note;
+                if (reader.IsDBNull(2))
+                {
+                    note = null;
+                }
+                else
+                {
+                    note = (byte)reader["Note"];
+                }
+
+                DateTime dateDebutLecture = (DateTime)reader["DateDebutLecture"];
+
+                DateTime? dateFinLecture;
+                if (reader.IsDBNull(4))
+                {
+                    dateFinLecture = null;
+                }
+                else
+                {
+
+                    dateFinLecture = (DateTime)reader["DateFinLecture"];
+                }
+
+                Livre model = new Livre(titre,auteur, note,dateDebutLecture,dateFinLecture,idLivre);
+                return model;
             }
         }
     }
