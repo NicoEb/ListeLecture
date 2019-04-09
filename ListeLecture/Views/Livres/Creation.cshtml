@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>CreationLivre</title>
+</head>
+<body>
+    <div>
+        <h1>Nouveau Livre</h1>
+        <p></p>
+        <p></p>
+        <form action="@Url.Action("SubmitCreationLivre")" method="get">
+        <h4>Titre  :  <input type="text" name="titre" : /></h4>
+        <h4>Auteur :  <input type="text" name="auteur" : /></h4>
+        <h4>  <input type="submit" value="Créer un livre" : /></h4>
+        </form>
+        
+    </div>
+</body>
+</html>

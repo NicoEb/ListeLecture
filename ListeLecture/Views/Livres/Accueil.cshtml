@@ -1,0 +1,132 @@
+﻿@using ListeLecture.Models
+@model AccueilModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width" />
+    <title>Accueil</title>
+</head>
+<body>
+    <div>
+        <h1>Bienvenue sur ma liste de Lecture</h1>
+        <fieldset style="text-align:right">
+
+           
+            <legend>Mes livres en cours</legend>
+            <table style="text-align:left" class="table table-bordered">
+
+                <thead>
+                    <!-- en tête du tableau-->
+                    <tr>
+                        <th></th>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Début de lecture</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+
+
+                        <tbody>
+          @foreach (var livreCourant in Model.LivreEnCours)
+                {
+                            <tr>
+                                <td> <a href="@Url.Action("Detail", new { idLivre = @livreCourant.IdLivre })" class="btn btn-light "><i class="fa fa-book "></i></a></td>
+                                <td> @livreCourant.TitreLivre</td>
+                                <td>@livreCourant.AuteurLivre</td>
+                                <td>@livreCourant.DateDebutLivre.ToString("dd/MM/yyyy")</td>
+                                <td>
+                                @for (int i = 1; i <= 5; i++)
+                                {
+                                    if (@livreCourant.NoteLivre >= i)
+                                    {
+                                        <a href="@Url.Action("Notation")" class="btn">
+                                            <i class="fa fa-star"></i>
+                                        </a>
+
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("Notation")" class="btn  ">
+                                            <i class="fa fa-star-o"></i>
+                                        </a>
+                                    }
+                                }
+                                </td>
+                            </tr>
+                   }
+                           
+
+                        </tbody>
+
+            </table>
+            <a href="@Url.Action("Creation")" class="btn btn-primary">Débuter un nouveau livre</a>
+        </fieldset>
+        <fieldset>
+            <legend>Mes livres passée</legend>
+            <table class="table table-bordered">
+
+                <thead>
+                    <!-- en tête du tableau-->
+                    <tr>
+                        <th></th>
+                        <th>Titre</th>
+                        <th>Auteur</th>
+                        <th>Début de lecture</th>
+                        <th>Note</th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+                    @foreach (var livreCourant in Model.LivreLus)
+                    {
+                    <tr>
+                        <td> <a href="@Url.Action("Detail")" class="btn btn-light "><i class="fa fa-book "></i></a></td>
+                        <td> @livreCourant.TitreLivre</td>
+                        <td>@livreCourant.AuteurLivre</td>
+                        <td>@livreCourant.DateDebutLivre.ToString("dd/MM/yyyy")</td>
+                        
+                        <td>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if ( @livreCourant.NoteLivre >= i)
+                                {
+                                    <a href="@Url.Action("Notation")" class="btn  ">
+                                        <i class="fa fa-star"></i>
+                                    </a>
+
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Notation")" class="btn  ">
+                                        <i class="fa fa-star-o"></i>
+                                    </a>
+                                }
+                            }
+                        </td>
+                    </tr>
+                    }                    
+                    </tbody>
+
+            </table>
+            <div>Mes livres lus : @Model.NombreTotalLinesLus</div>
+        </fieldset>
+    </div>
+    <footer>
+        <!-- pied de page-->
+        
+
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>

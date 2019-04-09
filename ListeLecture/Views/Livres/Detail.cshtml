@@ -1,0 +1,89 @@
+﻿@using ListeLecture.Models
+@model DetailModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width" />
+    <title>Detail</title>
+</head>
+<body>
+    <div>
+        <h1>@Model.LivreCourant.TitreLivre</h1>
+        <fieldset style="text-align:right">
+            <legend>@Model.LivreCourant.AuteurLivre</legend>
+            <table style="text-align:left" class="table ">
+
+
+                <tbody>
+
+                    <tr>
+                        <td>Date de début lecture :</td>
+                        <td> @Model.LivreCourant.DateDebutLivre.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                    <tr>
+
+                        @if (Model.LivreCourant.DateFinLecture.HasValue)
+                        {
+                            <td>Date de fin de lecture :</td>
+                            <td> @Model.LivreCourant.DateFinLecture.Value.ToString("dd/MM/yyyy")</td>
+                        }
+                        else
+                        {
+                            <td>Livre en cours de lecture</td>
+                        }
+
+                    </tr>
+                    <tr>
+
+                        <td>Note</td>
+
+                        <td>
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (Model.LivreCourant.NoteLivre >= i)
+                                {
+                                <a href="@Url.Action("Notation")" class="btn  ">
+                                    <i class="fa fa-star"></i>
+                                </a>
+                                    
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Notation")" class="btn  ">
+                                        <i class="fa fa-star-o"></i>
+                                    </a>
+                                 
+                                }
+                            }
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><a href="@Url.Action("Accueil")" class="btn btn-primary">Revenir à l'accueil</a></td>
+                        <td> <a href="@Url.Action("TerminerLivre", new { idLivre = Model.LivreCourant.IdLivre })" class="btn btn-primary">Terminer la lecture</a></td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </fieldset>
+            <fieldset style="text-align:right"></fieldset>
+
+    </div>
+    <footer>
+        <!-- pied de page-->
+
+
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+</body>
+</html>
